@@ -1,177 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
+{{-- @extends('layouts.app')
 
-<head>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Register') }}</div>
 
-    <meta charset="utf-8" />
-    <title>Gestion Clients</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc." />
-    <meta name="author" content="Zoyothemes" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <div class="card-body">
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
 
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
-    <!-- Datatables css -->
-    <link href="{{ asset('libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet"
-        type="text/css" />
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-    <!-- App css -->
-    <link href="{{ asset('css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
-
-    <!-- Icons -->
-    <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-
-</head>
-
-<!-- body start -->
-
-<body class="bg-white">
-
-    <!-- Begin page -->
-    <div class="account-page">
-        <div class="container-fluid p-0">
-            <div class="row align-items-center g-0">
-                <div class="col-xl-5">
-                    <div class="row">
-                        <div class="col-md-7 mx-auto">
-                            <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
-                                <div class="mb-4 p-0">
-                                    <a class='auth-logo' href='index.html'>
-                                        <img src="{{ asset('images/logo-dark.png') }}" alt="logo-dark" class="mx-auto"
-                                            height="28" />
-                                    </a>
-                                </div>
-
-                                <div class="pt-0">
-                                    <form method="POST" action="{{ route('register') }}" class="my-4">
-                                        @csrf
-
-                                        <div class="form-group mb-3">
-                                            <label for="name" class="form-label">Nom</label>
-                                            <input name="name" class="form-control" type="text" id="name" required placeholder="Entrez votre nom">
-                                        </div>
-
-                                        <div class="form-group mb-3">
-                                            <label for="emailaddress" class="form-label">Adresse e-mail</label>
-                                            <input name="email" class="form-control" type="email" id="emailaddress" required placeholder="Entrez votre e-mail">
-                                        </div>
-
-                                        {{-- <div class="form-group mb-3">
-                                            <label for="role" class="form-label">Rôle</label>
-                                            <select name="role" class="form-select" id="role">
-                                                <option disabled selected>Sélectionnez le rôle</option>
-                                                <option value="admin">Administrateur</option>
-                                                <option value="user" selected>Utilisateur</option>
-                                                <option value="moderator">Modérateur</option>
-                                            </select>
-                                        </div> --}}
-
-                                        <div class="form-group mb-3">
-                                            <label for="password" class="form-label">Mot de passe</label>
-                                            <input name="password" class="form-control" type="password" required id="password" placeholder="Entrez votre mot de passe">
-                                        </div>
-
-                                        <div class="form-group mb-3">
-                                            <label for="password_confirmation" class="form-label">Confirmez le mot de passe</label>
-                                            <input name="password_confirmation" class="form-control" type="password" required id="password_confirmation" placeholder="Confirmez votre mot de passe">
-                                        </div>
-
-                                        <div class="form-group mb-0 row">
-                                            <div class="col-12">
-                                                <div class="d-grid">
-                                                    <button class="btn btn-primary" type="submit">S'inscrire</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-                    </div>
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Register') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection --}}
+
+@extends('auth.app')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
+                <div class="mb-4 p-0">
+                    <a class='auth-logo' href='index.html'>
+                        <img src="{{ asset('images/logo-dark.png') }}" alt="logo-dark" class="mx-auto" height="28" />
+                    </a>
                 </div>
 
-                <div class="col-xl-7">
-                    <div class="account-page-bg p-md-5 p-4">
-                        <div class="text-center">
-                            <h3 class="text-dark mb-3 pera-title">Quick, Effective, and Productive With Tapeli Admin
-                                Dashboard</h3>
-                            <div class="auth-image">
-                                <img src="{{ asset('images/authentication.svg') }}" class="mx-auto img-fluid"
-                                    alt="images">
+                <div class="pt-0">
+                    <form action="{{ route('register') }}" method="POST" class="my-4">
+                        @csrf
+
+                        <div class="form-group mb-3">
+                            <label for="name" class="form-label">Nom</label>
+                            <input class="form-control" name="name" type="text" id="name" required
+                                placeholder="Entrez votre nom" value="{{ old('name') }}" autocomplete="name" autofocus>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Adresse e-mail</label>
+                            <input name="email" class="form-control" type="email" id="email" required
+                                placeholder="Entrez votre e-mail" value="{{ old('email') }}" required autocomplete="email">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input name="password" class="form-control" type="password" required id="password"
+                                placeholder="Entrez votre mot de passe" required autocomplete="new-password">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password-confirm" class="form-label">Confirmer le mot de passe</label>
+                            <input name="password_confirmation" class="form-control" type="password" required
+                                id="password-confirm" placeholder="Entrez votre mot de passe" required
+                                autocomplete="new-password">
+                        </div>
+
+                        <div class="form-group mb-0 row">
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" type="submit"> Inscription </button>
+                                </div>
                             </div>
                         </div>
+                    </form>
+
+                    {{-- <div class="saprator my-4"><span>or sign in with</span></div> --}}
+
+                    <div class="text-center text-muted mb-4">
+                        <p class="mb-0">Vous avez déjà un compte ?<a class='text-primary ms-2 fw-medium'
+                                href='{{route('login')}}'>Connectez-vous ici</a></p>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-    <!-- END wrapper -->
-
-    <!-- Vendor -->
-    <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
-
-    <!-- Apexcharts JS -->
-    <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
-
-    <!-- for basic area chart -->
-    <script src="{{ asset('apexcharts.com/samples/assets/stock-prices.js') }}"></script>
-
-    <!-- Widgets Init Js -->
-    <script src="{{ asset('js/pages/analytics-dashboard.init.js') }}"></script>
-
-    <!-- App js-->
-    <script src="{{ asset('js/app.js') }}"></script>
-
-    <!-- Datatables js -->
-    <script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-
-    <!-- dataTables.bootstrap5 -->
-    <script src="{{ asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-
-    <!-- buttons.colVis -->
-    <script src="{{ asset('libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-
-    <!-- buttons.bootstrap5 -->
-    <script src="{{ asset('libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
-
-    <!-- dataTables.keyTable -->
-    <script src="{{ asset('libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js') }}"></script>
-
-    <!-- dataTable.responsive -->
-    <script src="{{ asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
-
-    <!-- dataTables.select -->
-    <script src="{{ asset('libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-    <script src="{{ asset('libs/datatables.net-select-bs5/js/select.bootstrap5.min.js') }}"></script>
-
-    <!-- Datatable Demo App Js -->
-    <script src="{{ asset('js/pages/datatable.init.js') }}"></script>
-
-
-</body>
-
-</html>
+@endsection

@@ -36,26 +36,31 @@
                                     <td>{{ $appointment->company ?? 'N/A' }}</td>
                                     <td>{{ $appointment->email }}</td>
                                     <td>{{ $appointment->phone_number ?? 'N/A' }}</td>
-                                    <td>{{ $latestAppointment ? \Carbon\Carbon::parse($latestAppointment->appointment_date)->format('Y-m-d | H:i') : 'N/A' }}</td>
+                                    <td>{{ $latestAppointment ? \Carbon\Carbon::parse($latestAppointment->appointment_date)->format('Y-m-d | H:i') : 'N/A' }}
+                                    </td>
                                     <td>
                                         <span class="badge text-bg-dark">{{ $appointment->total_appointments }}</span>
                                     </td>
                                     <td>{{ $appointment->notes ?? 'N/A' }}</td>
                                     <td>
-                                        <a href="{{ route('appointments.show', $appointment->id) }}"
-                                            class="btn btn-success btn-sm py-0 px-2">
-                                            <span class="mdi mdi-eye-outline"></span>
-                                        </a>
+                                        {{-- @can('show appointments') --}}
+                                            <a href="{{ route('appointments.show', $appointment->id) }}"
+                                                class="btn btn-success btn-sm py-0 px-2">
+                                                <span class="mdi mdi-eye-outline"></span>
+                                            </a>
+                                        {{-- @endcan --}}
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                    <div class="mt-3">
-                        <a href="{{ route('appointments.create') }}" class="btn btn-success">Ajouter</a>
-                    </div>
+                    @can('create appointments')
+                        <div class="mt-3">
+                            <a href="{{ route('appointments.create') }}" class="btn btn-success">Ajouter</a>
+                        </div>
+                    @endcan
+
                 </div>
 
             </div>

@@ -7,6 +7,11 @@ use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ExcelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function allUsers() {
         $users = DB::table('users')
         ->select(

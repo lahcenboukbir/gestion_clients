@@ -5,8 +5,8 @@
                 &copy;
                 <script>
                     document.write(new Date().getFullYear())
-                </script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a href="#!"
-                    class="text-reset fw-semibold">WEBEX AG</a>
+                </script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a
+                    href="https://www.webexag.com/" class="text-reset fw-semibold">WEBEX AG</a>
             </div>
         </div>
     </div>

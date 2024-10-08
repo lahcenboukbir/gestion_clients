@@ -1,3 +1,5 @@
+@can('show users')
+
 @extends('layouts.app')
 
 @section('content')
@@ -82,3 +84,5 @@
             </div>
         </div>
     @endsection
+
+@endcan

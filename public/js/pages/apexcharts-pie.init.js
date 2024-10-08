@@ -120,9 +120,9 @@ chart.render();
 
 
 
-// 
+//
 // Gradient Donut Pie Charts
-// 
+//
 var options = {
     series: [44, 55, 41, 17, 15],
     chart: {
@@ -167,9 +167,9 @@ var options = {
 var chart = new ApexCharts(document.querySelector("#gradient_donut_pie_chart"), options);
 chart.render();
 
-// 
+//
 // Semi Donut Pie Charts
-// 
+//
 var options = {
     series: [44, 55, 41, 17, 15],
     chart: {
@@ -206,9 +206,9 @@ var chart = new ApexCharts(document.querySelector("#semi_donut_pie_chart"), opti
 chart.render();
 
 
-// 
+//
 // Donut with Pattern Pie Chart
-// 
+//
 
 var options = {
     series: [44, 55, 41, 17, 15],

@@ -36,57 +36,67 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('prospects.show', $prospect->id) }}"
-                                            class="btn btn-success btn-sm py-0 px-2">
-                                            <span class="mdi mdi-eye-outline"></span>
-                                        </a>
+                                        @can('show prospects')
+                                            <a href="{{ route('prospects.show', $prospect->id) }}"
+                                                class="btn btn-success btn-sm py-0 px-2">
+                                                <span class="mdi mdi-eye-outline"></span>
+                                            </a>
+                                        @endcan
 
-                                        <a href="{{ route('prospects.edit', $prospect->id) }}"
-                                            class="btn btn-warning btn-sm py-0 px-2">
-                                            <span class="mdi mdi-file-edit-outline"></span>
-                                        </a>
+                                        @can('edit prospects')
+                                            <a href="{{ route('prospects.edit', $prospect->id) }}"
+                                                class="btn btn-warning btn-sm py-0 px-2">
+                                                <span class="mdi mdi-file-edit-outline"></span>
+                                            </a>
+                                        @endcan
 
-                                        <button type="button" class="btn btn-danger btn-sm py-0 px-2" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $prospect->id }}">
-                                            <span class="mdi mdi-delete-outline"></span>
-                                        </button>
+                                        @can('delete prospects')
+                                            <button type="button" class="btn btn-danger btn-sm py-0 px-2"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $prospect->id }}">
+                                                <span class="mdi mdi-delete-outline"></span>
+                                            </button>
 
-                                        <div class="modal fade" id="deleteModal{{ $prospect->id }}" tabindex="-1"
-                                            aria-labelledby="deleteModal{{ $prospect->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="deleteModal{{ $prospect->id }}">
-                                                            Supprimer {{ $prospect->name }}</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form action="{{ route('prospects.destroy', $prospect->id) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
+                                            <div class="modal fade" id="deleteModal{{ $prospect->id }}" tabindex="-1"
+                                                aria-labelledby="deleteModal{{ $prospect->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="deleteModal{{ $prospect->id }}">
+                                                                Supprimer {{ $prospect->name }}</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{{ route('prospects.destroy', $prospect->id) }}"
+                                                                method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
 
-                                                            <button type="button" class="btn btn-dark btn-sm py-0 px-2"
-                                                                data-bs-dismiss="modal">
-                                                                <span class="mdi mdi-close"></span></button>
-                                                            <button type="submit" class="btn btn-danger btn-sm py-0 px-2">
-                                                                <span class="mdi mdi-delete-outline"></span>
-                                                            </button>
-                                                        </form>
+                                                                <button type="button" class="btn btn-dark btn-sm py-0 px-2"
+                                                                    data-bs-dismiss="modal">
+                                                                    <span class="mdi mdi-close"></span></button>
+                                                                <button type="submit" class="btn btn-danger btn-sm py-0 px-2">
+                                                                    <span class="mdi mdi-delete-outline"></span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endcan
+
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                    <div class="mt-3">
-                        <a href="{{ route('prospects.create') }}" class="btn btn-success">Ajouter</a>
-                    </div>
+                    @can('create prospects')
+                        <div class="mt-3">
+                            <a href="{{ route('prospects.create') }}" class="btn btn-success">Ajouter</a>
+                        </div>
+                    @endcan
+
                 </div>
 
             </div>

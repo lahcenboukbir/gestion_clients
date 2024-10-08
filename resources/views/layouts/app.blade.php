@@ -97,6 +97,15 @@
     <!-- App js-->
     <script src="{{ asset('js/app.js') }}"></script>
 
+    <!-- Apexcharts JS -->
+    <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
+
+    <!-- For Basic Area Chart Js-->
+    <script src="{{ asset('apexcharts.com/samples/assets/stock-prices.js') }}"></script>
+
+    <!-- Apexcharts Init Js -->
+    <script src="{{ asset('js/pages/apexcharts-column.init.js') }}"></script>
+
     <!-- Datatables js -->
     <script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 
@@ -131,6 +140,8 @@
     <!-- Flatpickr Timepicker Plugin js -->
     <script src="{{ asset('libs/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/pages/form-picker.js') }}"></script>
+
+    @yield('script')
 
 </body>
 

@@ -1,27 +1,26 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AssignRoleController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserManagementController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
 // Authentication
-Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Auth::routes();
 
 // Dashboard
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/', 'index')->name('dashboard.index');
+});
 
 // Users
 Route::controller(UserController::class)->group(function () {
@@ -85,13 +84,23 @@ Route::controller(ExcelController::class)->group(function () {
     Route::get('/report/appointments/excel', 'allAppointments')->name("appointments-excel");
 });
 
-// User Management
-Route::controller(UserManagementController::class)->group(function () {
-    Route::get('/roles', 'index')->name("roles.index");
-    Route::get('/roles/create', 'create')->name("roles.create");
-    Route::post('/roles', 'store')->name("roles.store");
-    Route::get('/roles/{id}', 'show')->name("roles.show");
-    Route::get('/roles/{id}/edit', 'edit')->name("roles.edit");
-    Route::put('/roles/{id}/edit', 'update')->name("roles.update");
-    Route::delete('/roles/{id}', 'destroy')->name("roles.destroy");
+// Roles
+Route::controller(RoleController::class)->group(function () {
+    Route::get('administration/roles', 'index')->name("roles.index");
+    Route::get('administration/roles/create', 'create')->name("roles.create");
+    Route::post('administration/roles', 'store')->name("roles.store");
+    Route::get('administration/roles/{id}', 'show')->name("roles.show");
+    Route::get('administration/roles/{id}/edit', 'edit')->name("roles.edit");
+    Route::put('administration/roles/{id}/edit', 'update')->name("roles.update");
+    Route::delete('administration/roles/{id}', 'destroy')->name("roles.destroy");
+});
+
+// Assign Roles
+Route::controller(AssignRoleController::class)->group(function () {
+    Route::get('administration/assign-roles', 'index')->name("assign.roles.index");
+    Route::get('administration/assign-roles/create', 'create')->name("assign.roles.create");
+    Route::post('administration/assign-roles', 'store')->name("assign.roles.store");
+    Route::get('administration/assign-roles/{id}/edit', 'edit')->name("assign.roles.edit");
+    Route::put('administration/assign-roles/{id}/edit', 'update')->name("assign.roles.update");
+    Route::delete('administration/assign-roles/{id}', 'destroy')->name("assign.roles.destroy");
 });

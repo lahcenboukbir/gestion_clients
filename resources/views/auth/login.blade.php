@@ -1,148 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
+{{-- @extends('layouts.app')
 
-<head>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Login') }}</div>
 
-    <meta charset="utf-8" />
-    <title>Gestion Clients</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc." />
-    <meta name="author" content="Zoyothemes" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
 
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+                            <div class="row mb-3">
+                                <label for="email"
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
-    <!-- Datatables css -->
-    <link href="{{asset('libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/datatables.net-select-bs5/css/select.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />
+                                <div class="col-md-6">
+                                    <input id="email" type="email"
+                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-    <!-- App css -->
-    <link href="{{ asset('css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
-
-    <!-- Icons -->
-    <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-
-</head>
-
-<!-- body start -->
-
-<body class="bg-white">
-    <!-- Begin page -->
-    <div class="account-page">
-        <div class="container-fluid p-0">
-            <div class="row align-items-center g-0">
-                <div class="col-xl-5">
-                    <div class="row">
-                        <div class="col-md-7 mx-auto">
-                            <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
-                                <div class="mb-4 p-0">
-                                    <a class='auth-logo' href='index.html'>
-                                        <img src="{{asset('images/logo-dark.png')}}" alt="logo-dark" class="mx-auto" height="28" />
-                                    </a>
-                                </div>
-
-                                <div class="pt-0">
-                                    <form method="POST" action="{{ route('login') }}" class="my-4">
-                                        @csrf <!-- CSRF token for security -->
-
-                                        <div class="form-group mb-3">
-                                            <label for="emailaddress" class="form-label">Adresse e-mail</label>
-                                            <input name="email" class="form-control" type="email" id="emailaddress" required="" placeholder="Entrez votre e-mail">
-                                        </div>
-
-                                        <div class="form-group mb-3">
-                                            <label for="password" class="form-label">Mot de passe</label>
-                                            <input name="password" class="form-control" type="password" id="password" required="" placeholder="Entrez votre mot de passe">
-                                        </div>
-
-                                        <div class="form-group mb-0 row">
-                                            <div class="col-12">
-                                                <div class="d-grid">
-                                                    <button class="btn btn-primary" type="submit">Connexion</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-
-
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-xl-7">
-                    <div class="account-page-bg p-md-5 p-4">
-                        <div class="text-center">
-                            <h3 class="text-dark mb-3 pera-title">Quick, Effective, and Productive With Tapeli Admin Dashboard</h3>
-                            <div class="auth-image">
-                                <img src="{{asset('images/authentication.svg')}}" class="mx-auto img-fluid"  alt="images">
+                            <div class="row mb-3">
+                                <label for="password"
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        required autocomplete="current-password">
+
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                            {{ old('remember') ? 'checked' : '' }}>
+
+                                        <label class="form-check-label" for="remember">
+                                            {{ __('Remember Me') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Login') }}
+                                    </button>
+
+                                    @if (Route::has('password.request'))
+                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- END wrapper -->
+@endsection --}}
 
-    <!-- Vendor -->
-    <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
+@extends('auth.app')
 
-    <!-- Apexcharts JS -->
-    <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
+@section('content')
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
+                <div class="mb-4 p-0">
+                    <a class='auth-logo' href='index.html'>
+                        <img src="{{ asset('images/logo-dark.png') }}" alt="logo-dark" class="mx-auto" height="28" />
+                    </a>
+                </div>
 
-    <!-- for basic area chart -->
-    <script src="{{ asset('apexcharts.com/samples/assets/stock-prices.js') }}"></script>
+                <div class="pt-0">
+                    <form method="POST" action="{{ route('login') }}" class="my-4">
+                        @csrf
 
-    <!-- Widgets Init Js -->
-    <script src="{{ asset('js/pages/analytics-dashboard.init.js') }}"></script>
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Adresse e-mail</label>
+                            <input name="email" class="form-control" type="email" id="email"
+                                placeholder="Entrez votre e-mail" value="{{ old('email') }}" required autocomplete="email"
+                                autofocus>
 
-    <!-- App js-->
-    <script src="{{ asset('js/app.js') }}"></script>
+                        </div>
 
-    <!-- Datatables js -->
-    <script src="{{asset('libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input name="password" class="form-control" type="password" required="" id="password"
+                                placeholder="Entrez votre mot de passe" required autocomplete="current-password">
 
-    <!-- dataTables.bootstrap5 -->
-    <script src="{{asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+                        </div>
 
-    <!-- buttons.colVis -->
-    <script src="{{asset('libs/datatables.net-buttons/js/buttons.colVis.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+                        <div class="form-group d-flex mb-3">
+                            <div class="col-sm-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                        {{ old('remember') ? 'checked' : '' }}>
 
-    <!-- buttons.bootstrap5 -->
-    <script src="{{asset('libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js')}}"></script>
+                                    <label class="form-check-label" for="remember">Se souvenir de moi</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 text-end">
+                                @if (Route::has('password.request'))
+                                    <a class="text-muted fs-14" href="{{ route('password.request') }}">
+                                        Mot de passe oublié ?
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
 
-    <!-- dataTables.keyTable -->
-    <script src="{{asset('libs/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js')}}"></script>
+                        <div class="form-group mb-0 row">
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" type="submit"> Connexion </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
-    <!-- dataTable.responsive -->
-    <script src="{{asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js')}}"></script>
+                    <div class="text-center text-muted mb-4">
+                        <p class="mb-0">Vous n'avez pas de compte ?<a class='text-primary ms-2 fw-medium'
+                                href='{{ route('register') }}'>Inscrivez-vous</a></p>
+                    </div>
 
-    <!-- dataTables.select -->
-    <script src="{{asset('libs/datatables.net-select/js/dataTables.select.min.js')}}"></script>
-    <script src="{{asset('libs/datatables.net-select-bs5/js/select.bootstrap5.min.js')}}"></script>
-
-    <!-- Datatable Demo App Js -->
-    <script src="{{asset('js/pages/datatable.init.js')}}"></script>
-
-
-</body>
-
-</html>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

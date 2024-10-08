@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function pdfReport() {
         return view('reports.pdf');
     }
