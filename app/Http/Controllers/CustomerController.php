@@ -12,16 +12,26 @@ class CustomerController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $customers = DB::table('customers')
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $customers = DB::table('customers')
             ->join('prospects', 'prospects.id', '=', 'customers.prospect_id')
             ->select('prospects.name', 'prospects.company', 'prospects.email', 'prospects.phone_number', 'customers.id')
             ->get();
+        } else {
+            $customers = DB::table('customers')
+            ->join('prospects', 'prospects.id', '=', 'customers.prospect_id')
+            ->select('prospects.name', 'prospects.company', 'prospects.email', 'prospects.phone_number', 'customers.id')
+            ->where('prospects.user_id', $user->id)
+            ->get();
+        }
 
         return view('customers.index', compact('customers'));
     }
@@ -47,7 +57,10 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = DB::table('customers')
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $customer = DB::table('customers')
             ->join('prospects', 'prospects.id', '=', 'customers.prospect_id')
             ->join('users', 'users.id', '=', 'prospects.user_id')
             ->select(
@@ -65,6 +78,28 @@ class CustomerController extends Controller
             )
             ->where('customers.id', $id)
             ->first();
+        } else {
+            $customer = DB::table('customers')
+            ->join('prospects', 'prospects.id', '=', 'customers.prospect_id')
+            ->join('users', 'users.id', '=', 'prospects.user_id')
+            ->select(
+                'users.name as user_name',
+                'prospects.name',
+                'prospects.company',
+                'prospects.email',
+                'prospects.phone_number',
+                'prospects.status',
+                'prospects.city',
+                'prospects.activity',
+                'prospects.comment',
+                'prospects.user_id',
+                'customers.id',
+                'customers.created_at',
+            )
+            ->where('customers.id', $id)
+            ->where('prospects.user_id', $user->id)
+            ->first();
+        }
 
         return view('customers.show', compact('customer'));
     }

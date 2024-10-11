@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -27,9 +29,33 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = DB::table('permissions')->get();
+        $users_permissions = DB::table('permissions')
+            ->where('name', 'LIKE', '%users')
+            ->get();
 
-        return view('roles.create', compact('permissions'));
+        $prospects_permissions = DB::table('permissions')
+            ->where('name', 'LIKE', '%prospects')
+            ->get();
+
+        $customers_permissions = DB::table('permissions')
+            ->where('name', 'LIKE', '%customers')
+            ->get();
+
+        $appointments_permissions = DB::table('permissions')
+            ->where('name', 'LIKE', '%appointments')
+            ->get();
+
+        $generate_reports = DB::table('permissions')
+            ->where('name', 'generate reports')
+            ->get();
+
+        return view('roles.create', compact(
+            'users_permissions',
+            'customers_permissions',
+            'prospects_permissions',
+            'appointments_permissions',
+            'generate_reports'
+        ));
     }
 
     /**
@@ -40,20 +66,12 @@ class RoleController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id'
+            'permissions.*' => 'exists:permissions,name'
         ]);
 
-        $role_id = DB::table('roles')->insertGetId([
-            'name' => $validated['name'],
-            'guard_name' => 'web'
-        ]);
+        $role = Role::create(['name' => $validated['name'], 'guard_name' => 'web']);
 
-        foreach ($validated['permissions'] as $permission_id) {
-            DB::table('role_has_permissions')->insert([
-                'permission_id' => $permission_id,
-                'role_id' => $role_id
-            ]);
-        }
+        $role->givePermissionTo($validated['permissions']);
 
         return redirect()->route('roles.index');
     }
@@ -63,19 +81,106 @@ class RoleController extends Controller
      */
     public function show($id)
     {
+        // role
         $role = DB::table('roles')
             ->select('name')
             ->where('id', $id)
             ->first();
 
-        $role_permissions = DB::table('role_has_permissions')
+        // users
+        $all_users_permissions = DB::table('permissions')
+            ->where('permissions.name', 'LIKE', '%users')
+            ->pluck('name')
+            ->toArray();
+
+        $users_permissions = DB::table('role_has_permissions')
             ->join('roles', 'roles.id', 'role_has_permissions.role_id')
             ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
             ->select('permissions.name')
             ->where('roles.id', $id)
-            ->get();
+            ->where('permissions.name', 'LIKE', '%users')
+            ->pluck('permissions.name')
+            ->toArray();
 
-        return view('roles.show', compact('role', 'role_permissions'));
+        // prospects
+        $all_prospects_permissions = DB::table('permissions')
+            ->where('permissions.name', 'LIKE', '%prospects')
+            ->pluck('name')
+            ->toArray();
+
+        $prospects_permissions = DB::table('role_has_permissions')
+            ->join('roles', 'roles.id', 'role_has_permissions.role_id')
+            ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
+            ->select('permissions.name')
+            ->where('roles.id', $id)
+            ->where('permissions.name', 'LIKE', '%prospects')
+            ->pluck('permissions.name')
+            ->toArray();
+
+        // customers
+        $all_customers_permissions = DB::table('permissions')
+            ->where('permissions.name', 'LIKE', '%customers')
+            ->pluck('name')
+            ->toArray();
+
+        $customers_permissions = DB::table('role_has_permissions')
+            ->join('roles', 'roles.id', 'role_has_permissions.role_id')
+            ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
+            ->select('permissions.name')
+            ->where('roles.id', $id)
+            ->where('permissions.name', 'LIKE', '%customers')
+            ->pluck('permissions.name')
+            ->toArray();
+
+        // appointments
+        $all_appointments_permissions = DB::table('permissions')
+            ->where('permissions.name', 'LIKE', '%appointments')
+            ->pluck('name')
+            ->toArray();
+
+        $appointments_permissions = DB::table('role_has_permissions')
+            ->join('roles', 'roles.id', 'role_has_permissions.role_id')
+            ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
+            ->select('permissions.name')
+            ->where('roles.id', $id)
+            ->where('permissions.name', 'LIKE', '%appointments')
+            ->pluck('permissions.name')
+            ->toArray();
+
+        // reports
+        $all_reports_permissions = DB::table('permissions')
+            ->where('permissions.name', 'generate reports')
+            ->pluck('name')
+            ->toArray();
+
+        $reports_permissions = DB::table('role_has_permissions')
+            ->join('roles', 'roles.id', 'role_has_permissions.role_id')
+            ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
+            ->select('permissions.name')
+            ->where('roles.id', $id)
+            ->where('permissions.name', 'generate reports')
+            ->pluck('permissions.name')
+            ->toArray();
+
+        return view('roles.show', compact(
+            'role',
+
+            'all_users_permissions',
+            'users_permissions',
+
+            'all_prospects_permissions',
+            'prospects_permissions',
+
+            'all_customers_permissions',
+            'customers_permissions',
+
+            'all_appointments_permissions',
+            'appointments_permissions',
+
+            'all_reports_permissions',
+            'reports_permissions',
+
+        ));
     }
 
     /**
@@ -88,14 +193,27 @@ class RoleController extends Controller
             ->where('id', $id)
             ->first();
 
-        $permissions = DB::table('permissions')->get();
-
         $assigned_permissions  = DB::table('role_has_permissions')
+            ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
             ->where('role_id', $id)
-            ->pluck('permission_id')
+            ->pluck('permissions.name')
             ->toArray();
 
-        return view('roles.edit', compact('role', 'permissions', 'assigned_permissions'));
+        $users_permissions = DB::table('permissions')->where('name', 'LIKE', '%users')->get();
+        $prospects_permissions = DB::table('permissions')->where('name', 'LIKE', '%prospects')->get();
+        $customers_permissions = DB::table('permissions')->where('name', 'LIKE', '%customers')->get();
+        $appointments_permissions = DB::table('permissions')->where('name', 'LIKE', '%appointments')->get();
+        $reports_permissions = DB::table('permissions')->where('name', 'generate reports')->get();
+
+        return view('roles.edit', compact(
+            'role',
+            'assigned_permissions',
+            'users_permissions',
+            'prospects_permissions',
+            'customers_permissions',
+            'appointments_permissions',
+            'reports_permissions'
+        ));
     }
 
     /**
@@ -106,26 +224,14 @@ class RoleController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id'
+            'permissions.*' => 'exists:permissions,name'
         ]);
 
-        DB::table('roles')
-            ->where('id', $id)
-            ->update([
-                'name' => $validated['name']
-            ]);
+        $role = Role::findOrFail($id);
 
-        // Remove old permissions and assign new ones
-        DB::table('role_has_permissions')
-            ->where('role_id', $id)
-            ->delete();
+        $role->update(['name' => $validated['name']]);
 
-        foreach ($validated['permissions'] as $permission_id) {
-            DB::table('role_has_permissions')->insert([
-                'permission_id' => $permission_id,
-                'role_id' => $id
-            ]);
-        }
+        $role->syncPermissions($validated['permissions']);
 
         return redirect()->route('roles.index');
     }
@@ -142,5 +248,34 @@ class RoleController extends Controller
         }
 
         return redirect()->route('roles.index');
+    }
+
+    public function test($id)
+    {
+        $role = DB::table('roles')
+            ->select('id', 'name')
+            ->where('id', $id)
+            ->first();
+
+        $assigned_permissions  = DB::table('role_has_permissions')
+            ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
+            ->where('role_id', $id)
+            ->pluck('permissions.name')
+            ->toArray();
+
+        $users_permissions = DB::table('permissions')->where('name', 'LIKE', '%users')->get();
+        $prospects_permissions = DB::table('permissions')->where('name', 'LIKE', '%prospects')->get();
+        $customers_permissions = DB::table('permissions')->where('name', 'LIKE', '%customers')->get();
+        $appointments_permissions = DB::table('permissions')->where('name', 'LIKE', '%appointments')->get();
+
+        return view('roles.test', compact(
+            'role',
+            'assigned_permissions',
+            'users_permissions',
+            'prospects_permissions',
+            'customers_permissions',
+            'appointments_permissions'
+
+        ));
     }
 }

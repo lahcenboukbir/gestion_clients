@@ -2,6 +2,8 @@
 
     @extends('layouts.app')
 
+    @section('title', 'Clients - Afficher')
+
     @section('content')
         <div class="row">
             <div class="col-12">
@@ -70,35 +72,6 @@
                                                 <div class="profile-email">
                                                     <h6 class="text-uppercase fs-13">Commercial</h6>
                                                     <a href="" class="fs-14">{{ $customer->user_name }}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-md-12 mb-0">
-                                            <div class="">
-                                                <h5 class="fs-16 text-dark fw-semibold mb-3 text-capitalize">Rendez-vous</h5>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-sm-6 col-md-6">
-                                                    <div class="card border">
-                                                        <div class="card-body">
-                                                            <h4 class="m-0 fw-semibold text-dark fs-16">Succès</h4>
-                                                            <div class="row mt-2 d-flex align-items-center">
-                                                                <div class="col">
-                                                                    <h5 class="fs-20 mt-1 fw-bold">2024-10-10</h5>
-                                                                    <p class="mb-0 text-muted">Remarques</p>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <a href="#"
-                                                                        class="btn btn-sm btn-outline-dark px-3">Plus de détails
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

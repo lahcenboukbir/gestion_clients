@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             {
                 title: 'All Day Event',
                 start: '2018-01-01',
-                allDay: false, 
+                allDay: false,
                 className: 'event-warning border-warning'
             },
             {

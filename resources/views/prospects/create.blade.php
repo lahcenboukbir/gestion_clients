@@ -2,6 +2,8 @@
 
     @extends('layouts.app')
 
+    @section('title', 'Prospects - Créer')
+
     @section('content')
         <div class="row">
             <div class="col-12">
@@ -17,15 +19,15 @@
                                 @csrf
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="name" class="form-label">Nom</label>
-                                    <input name="name" type="text" id="name" class="form-control"
-                                        placeholder="Entrez le nom">
-                                </div>
-
-                                <div class="col-md-6 mb-3">
                                     <label for="company" class="form-label">Entreprise</label>
                                     <input name="company" type="text" id="company" class="form-control"
                                         placeholder="Entrez le nom de l'entreprise">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Contact</label>
+                                    <input name="name" type="text" id="name" class="form-control"
+                                        placeholder="Entrez le nom">
                                 </div>
 
                                 <div class="col-md-6 mb-3">

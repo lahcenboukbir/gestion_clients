@@ -1,6 +1,8 @@
-@can('create users')
+@role('admin')
 
     @extends('layouts.app')
+
+    @section('title', 'Utilisateurs - Créer')
 
     @section('content')
         <div class="row">
@@ -40,6 +42,15 @@
                                         id="password_confirmation" placeholder="Confirmez le mot de passe">
                                 </div>
 
+                                <div class="col-md-6 mb-3">
+                                    <label for="roles" class="form-label">Rôle</label>
+                                    <select name="role_id" class="form-select" id="roles">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div>
                                     <a href="{{ route('users.index') }}" class="btn btn-light">Retour</a>
                                     <button class="btn btn-success" type="submit">Ajouter</button>
@@ -53,4 +64,4 @@
         </div>
     @endsection
 
-@endcan
+@endrole

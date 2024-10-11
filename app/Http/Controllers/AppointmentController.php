@@ -11,34 +11,62 @@ class AppointmentController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $appointments = DB::table('appointments')
-            ->join('prospects', 'prospects.id', '=', 'appointments.prospect_id')
-            ->select(
-                'prospects.id',
-                'prospects.name',
-                'prospects.company',
-                'prospects.email',
-                'prospects.phone_number',
-                DB::raw('COUNT(appointments.id) as total_appointments'),
-                'appointments.notes',
-            )
-            ->groupBy(
-                'prospects.id',
-                'prospects.name',
-                'prospects.company',
-                'prospects.email',
-                'prospects.phone_number',
-                'appointments.notes',
-            )
-            ->having('total_appointments', '>', 0)
-            ->get();
+        $user = auth()->user();
 
+        if ($user->hasRole('admin')) {
+            $appointments = DB::table('appointments')
+                ->join('prospects', 'prospects.id', '=', 'appointments.prospect_id')
+                ->select(
+                    'prospects.id',
+                    'prospects.name',
+                    'prospects.company',
+                    'prospects.email',
+                    'prospects.phone_number',
+                    DB::raw('COUNT(appointments.id) as total_appointments'),
+                    'appointments.notes',
+                )
+                ->groupBy(
+                    'prospects.id',
+                    'prospects.name',
+                    'prospects.company',
+                    'prospects.email',
+                    'prospects.phone_number',
+                    'appointments.notes',
+                )
+                ->having('total_appointments', '>', 0)
+                ->get();
+        } else {
+            $appointments = DB::table('appointments')
+                ->join('prospects', 'prospects.id', '=', 'appointments.prospect_id')
+                ->select(
+                    'prospects.id',
+                    'prospects.name',
+                    'prospects.company',
+                    'prospects.email',
+                    'prospects.phone_number',
+                    DB::raw('COUNT(appointments.id) as total_appointments'),
+                    'appointments.notes',
+                    'appointments.user_id',
+                )
+                ->groupBy(
+                    'prospects.id',
+                    'prospects.name',
+                    'prospects.company',
+                    'prospects.email',
+                    'prospects.phone_number',
+                    'appointments.notes',
+                    'appointments.user_id',
+                )
+                ->having('total_appointments', '>', 0)
+                ->having('appointments.user_id', $user->id)
+                ->get();
+        }
 
         $latestAppointments = DB::table('appointments')
             ->join('prospects', 'prospects.id', '=', 'appointments.prospect_id')
@@ -62,7 +90,18 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        $prospects = DB::table('prospects')->where('status', '!=', 'customer')->get();
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $prospects = DB::table('prospects')
+                ->where('status', '!=', 'customer')
+                ->get();
+        } else {
+            $prospects = DB::table('prospects')
+                ->where('user_id', $user->id)
+                ->where('status', '!=', 'customer')
+                ->get();
+        }
 
         return view('appointments.create', compact('prospects'));
     }
@@ -92,12 +131,31 @@ class AppointmentController extends Controller
      */
     public function show($id)
     {
-        $appointments = DB::table('appointments')
-            ->where('prospect_id', $id)
-            ->orderBy('appointment_date', 'desc')
-            ->get();
+        $user = auth()->user();
 
-        $prospect_name = DB::table('prospects')->select('name')->where('id', $id)->first();
+        if ($user->hasRole('admin')) {
+            $appointments = DB::table('appointments')
+                ->where('prospect_id', $id)
+                ->orderBy('appointment_date', 'desc')
+                ->get();
+
+            $prospect_name = DB::table('prospects')
+                ->select('name')
+                ->where('id', $id)
+                ->first();
+        } else {
+            $appointments = DB::table('appointments')
+                ->where('prospect_id', $id)
+                ->where('user_id', $user->id)
+                ->orderBy('appointment_date', 'desc')
+                ->get();
+
+            $prospect_name = DB::table('prospects')
+                ->select('name')
+                ->where('id', $id)
+                ->where('user_id', $user->id)
+                ->first();
+        }
 
         return view('appointments.show', compact('appointments', 'prospect_name'));
     }
@@ -107,7 +165,20 @@ class AppointmentController extends Controller
      */
     public function edit($id)
     {
-        $appointment = DB::table('appointments')->where('id', $id)->orderBy('appointment_date', 'desc')->first();
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $appointment = DB::table('appointments')
+            ->where('id', $id)
+            ->orderBy('appointment_date', 'desc')
+            ->first();
+        } else {
+            $appointment = DB::table('appointments')
+            ->where('id', $id)
+            ->where('user_id', $user->id)
+            ->orderBy('appointment_date', 'desc')
+            ->first();
+        }
 
         return view('appointments.edit', compact('appointment'));
     }

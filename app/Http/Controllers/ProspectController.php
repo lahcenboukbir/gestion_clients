@@ -17,7 +17,16 @@ class ProspectController extends Controller
      */
     public function index()
     {
-        $prospects = DB::table('prospects')->where('status', '!=', 'customer')->get();
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $prospects = DB::table('prospects')->where('status', '!=', 'customer')->get();
+        } else {
+            $prospects = DB::table('prospects')
+                ->where('status', '!=', 'customer')
+                ->where('user_id', $user->id)
+                ->get();
+        }
 
         return view('prospects.index', compact('prospects'));
     }
@@ -75,6 +84,15 @@ class ProspectController extends Controller
             'updated_at' => now(),
         ]);
 
+        // Insert a new record into the 'customers' table if the validated status is 'customer'
+        if ($validated['status'] === 'customer') {
+            DB::table('customers')->insert([
+                'prospect_id' => $prospectId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         return redirect()->route('prospects.index');
     }
 
@@ -83,14 +101,55 @@ class ProspectController extends Controller
      */
     public function show($id)
     {
-        $prospect = DB::table('prospects')->where('id', $id)->first();
+        $user = auth()->user();
 
-        $user = DB::table('prospects')
-            ->join('users', 'users.id', '=', 'prospects.user_id')
-            ->where('prospects.id', $id)
-            ->first();
+        if ($user->hasRole('admin')) {
+            $prospect = DB::table('prospects')
+                ->join('users', 'users.id', 'prospects.user_id')
+                ->select(
+                    'prospects.name',
+                    'prospects.company',
+                    'prospects.status',
+                    'prospects.email',
+                    'prospects.city',
+                    'prospects.phone_number',
+                    'prospects.activity',
+                    'users.id as user_id',
+                    'users.name as user_name'
+                )
+                ->where('prospects.id', $id)
+                ->first();
 
-        return view('prospects.show', compact('prospect', 'user'));
+            $appointments = DB::table('appointments')
+                ->where('prospect_id', $id)
+                ->orderBy('appointment_date')
+                ->get();
+        } else {
+            $prospect = DB::table('prospects')
+                ->join('users', 'users.id', 'prospects.user_id')
+                ->select(
+                    'prospects.name',
+                    'prospects.company',
+                    'prospects.status',
+                    'prospects.email',
+                    'prospects.city',
+                    'prospects.phone_number',
+                    'prospects.activity',
+                    'users.id as user_id',
+                    'users.name as user_name'
+                )
+                ->where('prospects.id', $id)
+                ->where('prospects.user_id', $user->id)
+                ->first();
+
+            $appointments = DB::table('appointments')
+                ->where('prospect_id', $id)
+                ->where('user_id', $user->id)
+                ->orderBy('appointment_date')
+                ->get();
+        }
+
+        return view('prospects.show', compact('prospect', 'appointments'));
     }
 
     /**
@@ -98,7 +157,17 @@ class ProspectController extends Controller
      */
     public function edit($id)
     {
-        $prospect = DB::table('prospects')->where('id', $id)->first();
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            $prospect = DB::table('prospects')
+                ->where('id', $id)
+                ->first();
+        } else {
+            $prospect = DB::table('prospects')->where('id', $id)
+                ->where('prospects.user_id', $user->id)
+                ->first();
+        }
         return view('prospects.edit', compact('prospect'));
     }
 
@@ -118,7 +187,6 @@ class ProspectController extends Controller
             'comment' => 'nullable|string|max:255',
         ]);
 
-        $validated['user_id'] = auth()->id();
         $validated['updated_at'] = now();
 
         DB::table('prospects')->where('id', $id)->update($validated);

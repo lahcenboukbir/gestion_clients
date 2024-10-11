@@ -21,7 +21,9 @@ class PDFController extends Controller
 
         $pdf = Pdf::loadView('pdf.all_users', compact('users'));
 
-        return $pdf->download('users_report.pdf');
+        $timestamp = now()->format('d.m.Y');
+
+        return $pdf->stream('rapport_utilisateurs_'.$timestamp.'.pdf');
     }
 
     public function allProspects()
@@ -52,7 +54,9 @@ class PDFController extends Controller
 
         $pdf = Pdf::loadView('pdf.all_prospects', compact('prospects', 'appointments', 'users'));
 
-        return $pdf->download('prospects_report.pdf');
+        $timestamp = now()->format('d.m.Y');
+
+        return $pdf->stream('rapport_prospects_'.$timestamp.'.pdf');
     }
 
     public function allCustomers()
@@ -87,7 +91,9 @@ class PDFController extends Controller
 
         $pdf = Pdf::loadView('pdf.all_customers', compact('customers', 'appointments', 'users'));
 
-        return $pdf->download('customers_report.pdf');
+        $timestamp = now()->format('d.m.Y');
+
+        return $pdf->stream('rapport_clients_'.$timestamp.'.pdf');
     }
 
     public function allAppointments()
@@ -99,6 +105,9 @@ class PDFController extends Controller
         ;
 
         $pdf = Pdf::loadView('pdf.all_appointments', compact('appointments'));
-        return $pdf->download('appointments_report.pdf');
+
+        $timestamp = now()->format('d.m.Y');
+
+        return $pdf->stream('rapport_rendez-vous_'.$timestamp.'.pdf');
     }
 }

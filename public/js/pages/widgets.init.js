@@ -105,7 +105,7 @@ var chart = new ApexCharts(document.querySelector("#chart-new-clients"), options
 chart.render();
 
 
-// Traffic 
+// Traffic
 var options = {
     series: [
         {
@@ -505,7 +505,7 @@ var options = {
             borderRadius: 5,
             borderRadiusApplication: 'end', // 'around', 'end'
             borderRadiusWhenStacked: 'last', // 'all', 'last'
-        },  
+        },
     },
     dataLabels: {
         enabled: false

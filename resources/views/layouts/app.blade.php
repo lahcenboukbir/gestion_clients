@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Gestion Clients</title>
+    <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc." />
     <meta name="author" content="Zoyothemes" />
@@ -34,11 +34,6 @@
     <!-- Flatpickr Timepicker css -->
     <link href="{{ asset('libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
 
-    {{-- Font Awesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <!-- body start -->
@@ -61,7 +56,7 @@
             <div class="content pt-3">
 
                 <!-- Start Content-->
-                <div class="container-sm">
+                <div class="container-fluid">
                     @yield('content')
                 </div>
                 <!-- End Content-->
@@ -84,6 +79,7 @@
     <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('libs/fullcalendar/index.global.min.js') }}"></script>
 
     <!-- Apexcharts JS -->
     <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>

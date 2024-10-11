@@ -1,6 +1,6 @@
 @auth
     <div class="topbar-custom">
-        <div class="container-xxl">
+        <div class="container-fluid">
             <div class="d-flex justify-content-between">
                 <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
                     <li>
@@ -29,13 +29,13 @@
                         <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
                             <!-- item-->
                             <div class="dropdown-header noti-title">
-                                <h6 class="text-overflow m-0">Welcome !</h6>
+                                <h6 class="text-overflow m-0">Bienvenue !</h6>
                             </div>
 
                             <!-- item-->
-                            <a class='dropdown-item notify-item' href='pages-profile.html'>
+                            <a class='dropdown-item notify-item' href='{{route('profile.show')}}'>
                                 <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
-                                <span>My Account</span>
+                                <span>Mon compte</span>
                             </a>
 
                             <div class="dropdown-divider"></div>
@@ -44,7 +44,7 @@
                             <a class="dropdown-item notify-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="mdi mdi-location-exit fs-16 align-middle"></i>
-                                <span>Logout</span>
+                                <span>Se déconnecter</span>
                             </a>
 
                             <!-- Logout Form -->

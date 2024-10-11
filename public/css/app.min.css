@@ -13904,6 +13904,7 @@ body.loading {
 .fc-event .fc-event-title {
     flex-grow: 0 !important;
     font-weight: 500;
+    color: var(--bs-primary);
 }
 .fc .fc-daygrid-day.fc-day-today {
     background-color: #e0f1fa !important;

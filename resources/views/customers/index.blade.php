@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Clients')
+
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -13,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nom</th>
+                                <th>Contact</th>
                                 <th>Entreprise</th>
                                 <th>Actions</th>
                             </tr>

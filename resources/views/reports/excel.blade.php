@@ -1,6 +1,8 @@
 @extends('reports.app')
 
-@section('title')
+@section('title', 'Rapport - EXCEL')
+
+@section('report-title')
     <h5 class="card-title mb-0">Rapports EXCEL</h5>
 @endsection
 
@@ -17,6 +19,6 @@
 @endsection
 
 @section('appointments-report')
-    <a href="{{ route('appointments-excel') }}" class="btn btn-succes">Télécharger</a>
+    <a href="{{ route('appointments-excel') }}" class="btn btn-success">Télécharger</a>
 @endsection
 

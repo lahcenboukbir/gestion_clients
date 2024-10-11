@@ -137,10 +137,10 @@
                         </div>
                     </form>
 
-                    <div class="text-center text-muted mb-4">
+                    {{-- <div class="text-center text-muted mb-4">
                         <p class="mb-0">Vous n'avez pas de compte ?<a class='text-primary ms-2 fw-medium'
                                 href='{{ route('register') }}'>Inscrivez-vous</a></p>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

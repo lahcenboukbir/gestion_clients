@@ -1,5 +1,7 @@
-@can('edit users')
+@role('admin')
     @extends('layouts.app')
+
+    @section('title', 'Utilisateurs - Modifier')
 
     @section('content')
         <div class="row">
@@ -20,24 +22,24 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Nom</label>
                                     <input name="name" type="text" id="name" class="form-control"
-                                        value="{{ $user->name }}">
+                                        value="{{ $user->name }}" placeholder="Modifier le nom">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">Adresse e-mail</label>
                                     <input name="email" type="email" id="email" class="form-control"
-                                        value="{{ $user->email }}">
+                                        value="{{ $user->email }}" placeholder="Modifier l'email">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="password" class="form-label">Mot de passe</label>
-                                    <input name="password" type="password" id="password" class="form-control">
+                                    <input name="password" type="password" id="password" class="form-control" placeholder="Modifier le mot de passe">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="phone_number" class="form-label">Numéro de téléphone</label>
                                     <input name="phone_number" type="text" id="phone_number" class="form-control"
-                                        value="{{ $user->phone_number }}">
+                                        value="{{ $user->phone_number }}" placeholder="Modifier le numéro de téléphone">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
@@ -48,12 +50,21 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="address" class="form-label">Adresse</label>
                                     <input name="text" type="address" id="address" class="form-control"
-                                        value="{{ $user->address }}">
+                                        value="{{ $user->address }}" placeholder="Modifier l'adresse">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="roles" class="form-label">Rôle</label>
+                                    <select name="role_id" class="form-select" id="roles">
+                                        @foreach ($roles as $role)
+                                        <option value="{{$role->id}}" @if ($role->id === $user_role->role_id) selected @endif>{{$role->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="bio" class="form-label">Bio</label>
-                                    <textarea name="bio" class="form-control" id="bio" rows="5" spellcheck="false">{{ $user->bio }}</textarea>
+                                    <textarea name="bio" class="form-control" id="bio" rows="1" spellcheck="false" placeholder="Modifier la bio">{{ $user->bio }}</textarea>
                                 </div>
 
                                 <div>
@@ -69,4 +80,4 @@
         </div>
     @endsection
 
-@endcan
+@endrole

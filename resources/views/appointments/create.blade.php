@@ -2,6 +2,8 @@
 
     @extends('layouts.app')
 
+    @section('title', 'Rendez-vous - Créer')
+
     @section('content')
         <div class="row">
             <div class="col-12">

@@ -12,19 +12,21 @@ class ExcelController extends Controller
         $this->middleware('auth');
     }
 
-    public function allUsers() {
+    public function allUsers()
+    {
         $users = DB::table('users')
-        ->select(
-            'name',
-            'email',
-            'phone_number',
-            'address',
-            'bio',
-            'role',
+            ->select(
+                'name',
+                'email',
+                'phone_number',
+                'address',
+                'bio',
             )
-        ->get();
+            ->get();
 
-        return FastExcel::data($users)->download('users_report.xlsx');
+        $timestamp = now()->format('d.m.Y');
+
+        return FastExcel::data($users)->download('rapport_utilisateurs_' . $timestamp . '.xlsx');
     }
 
     public function allProspects()
@@ -45,7 +47,9 @@ class ExcelController extends Controller
             ->where('prospects.status', '!=', 'customer')
             ->get();
 
-        return FastExcel::data($prospects)->download('prospects_report.xlsx');
+        $timestamp = now()->format('d.m.Y');
+
+        return FastExcel::data($prospects)->download('rapport_prospects_' . $timestamp . '.xlsx');
     }
 
     public function allCustomers()
@@ -67,7 +71,9 @@ class ExcelController extends Controller
             )
             ->get();
 
-        return FastExcel::data($customers)->download('customers_report.xlsx');
+        $timestamp = now()->format('d.m.Y');
+
+        return FastExcel::data($customers)->download('rapport_clients_' . $timestamp . '.xlsx');
     }
 
     public function allAppointments()
@@ -88,7 +94,8 @@ class ExcelController extends Controller
             ->orderBy('appointments.appointment_date', 'desc')
             ->get();
 
-        return FastExcel::data($appointments)->download('appointments_report.xlsx');
-    }
+        $timestamp = now()->format('d.m.Y');
 
+        return FastExcel::data($appointments)->download('rapport_rendez-vous_' . $timestamp . '.xlsx');
+    }
 }

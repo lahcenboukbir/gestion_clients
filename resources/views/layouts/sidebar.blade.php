@@ -6,7 +6,7 @@
             <div id="sidebar-menu">
 
                 <div class="logo-box">
-                    <a class='logo logo-light' href=''>
+                    <a class='logo logo-light' href='{{route('dashboard.index')}}'>
                         <span class="logo-sm">
                             <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
                         </span>
@@ -14,7 +14,7 @@
                             <img src="{{ asset('images/logo-light.png') }}" alt="" height="24">
                         </span>
                     </a>
-                    <a class='logo logo-dark' href=''>
+                    <a class='logo logo-dark' href='{{route('dashboard.index')}}'>
                         <span class="logo-sm">
                             <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
                         </span>
@@ -37,12 +37,25 @@
 
                     <li class="menu-title">Pages</li>
 
-                    <li>
-                        <a class='tp-link' href='{{ route('users.index') }}'>
-                            <span class="mdi mdi-account-multiple-outline"></span>
-                            <span> Utilisateurs </span>
-                        </a>
-                    </li>
+                    @role('admin')
+                        <li>
+                            <a href="#sidebarUsers" data-bs-toggle="collapse">
+                                <span class="mdi mdi-account-multiple-outline"></span>
+                                <span> Utilisateurs </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarUsers">
+                                <ul class="nav-second-level">
+                                    <li>
+                                        <a class='tp-link' href='{{ route('users.index') }}'>Utilisateurs</a>
+                                    </li>
+                                    <li>
+                                        <a class='tp-link' href='{{ route('roles.index') }}'>Gestion des Rôles</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    @endrole
 
                     <li>
                         <a class='tp-link' href='{{ route('prospects.index') }}'>
@@ -84,27 +97,6 @@
                             </div>
                         </li>
                     @endcan
-
-                    @role('admin')
-                        <li>
-                            <a href="s#sidebarRoles" data-bs-toggle="collapse">
-                                <span class="mdi mdi-cog-outline"></span>
-                                <span> Administration </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarRoles">
-                                <ul class="nav-second-level">
-                                    <li>
-                                        <a class='tp-link' href='{{ route('roles.index') }}'>Gestion des Rôles</a>
-                                    </li>
-                                    <li>
-                                        <a class='tp-link' href='{{ route('assign.roles.index') }}'>Affecter des Rôles</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    @endrole
-
                 </ul>
 
             </div>

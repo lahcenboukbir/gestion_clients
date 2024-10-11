@@ -10,7 +10,7 @@ use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -86,21 +86,19 @@ Route::controller(ExcelController::class)->group(function () {
 
 // Roles
 Route::controller(RoleController::class)->group(function () {
-    Route::get('administration/roles', 'index')->name("roles.index");
-    Route::get('administration/roles/create', 'create')->name("roles.create");
-    Route::post('administration/roles', 'store')->name("roles.store");
-    Route::get('administration/roles/{id}', 'show')->name("roles.show");
-    Route::get('administration/roles/{id}/edit', 'edit')->name("roles.edit");
-    Route::put('administration/roles/{id}/edit', 'update')->name("roles.update");
-    Route::delete('administration/roles/{id}', 'destroy')->name("roles.destroy");
+    Route::get('/roles', 'index')->name("roles.index");
+    Route::get('/roles/create', 'create')->name("roles.create");
+    Route::post('/roles', 'store')->name("roles.store");
+    Route::get('/roles/{id}', 'show')->name("roles.show");
+    Route::get('/roles/{id}/edit', 'edit')->name("roles.edit");
+    Route::put('/roles/{id}/edit', 'update')->name("roles.update");
+    Route::delete('/roles/{id}', 'destroy')->name("roles.destroy");
+
+    Route::get('/test/{id}/edit', 'test')->name("roles.test");
 });
 
-// Assign Roles
-Route::controller(AssignRoleController::class)->group(function () {
-    Route::get('administration/assign-roles', 'index')->name("assign.roles.index");
-    Route::get('administration/assign-roles/create', 'create')->name("assign.roles.create");
-    Route::post('administration/assign-roles', 'store')->name("assign.roles.store");
-    Route::get('administration/assign-roles/{id}/edit', 'edit')->name("assign.roles.edit");
-    Route::put('administration/assign-roles/{id}/edit', 'update')->name("assign.roles.update");
-    Route::delete('administration/assign-roles/{id}', 'destroy')->name("assign.roles.destroy");
+// User Profile
+Route::controller(UserProfile::class)->group(function () {
+    Route::get('/profile', 'show')->name('profile.show');
+    Route::put('/profile', 'update')->name('profile.update');
 });

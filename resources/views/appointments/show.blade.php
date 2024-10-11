@@ -1,6 +1,8 @@
 @can('show appointments')
     @extends('layouts.app')
 
+    @section('title', 'Rendez-vous - Afficher')
+
     @section('content')
         <div class="row">
             <div class="col-12">
