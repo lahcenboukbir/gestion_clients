@@ -19,19 +19,19 @@
                             @method('PUT')
 
                             <div class="col-md-6 mb-3">
-                                <label for="company" class="form-label">Entreprise</label>
+                                <label for="company" class="form-label">Entreprise <span class="text-danger">*</span></label>
                                 <input name="company" type="text" id="company" class="form-control"
                                     value="{{ $prospect->company }}" placeholder="Modifier le nom de l'entreprise">
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Contact</label>
+                                <label for="name" class="form-label">Contact <span class="text-danger">*</span></label>
                                 <input name="name" type="text" id="name" class="form-control"
                                     value="{{ $prospect->name }}" placeholder="Modifier le nom">
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">E-mail</label>
+                                <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
                                 <input name="email" type="email" id="example-email" name="mail" class="form-control"
                                     value="{{ $prospect->email }}" placeholder="Modifier l'email">
                             </div>
@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="status" class="form-label">Statut</label>
+                                <label for="status" class="form-label">Statut <span class="text-danger">*</span></label>
                                 <select name="status" class="form-select" id="status">
                                     <option value="new" {{ $prospect->status == 'new' ? 'selected' : '' }}>Nouveau
                                     </option>

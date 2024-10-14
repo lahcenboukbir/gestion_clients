@@ -5,21 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Consultation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'prospect_id',
+        'customer_id',
+        'user_id',
+        'status',
+        'notes',
+        'confirmation_date',
+        'consultation_date_time',
     ];
 
-    // A customer belongs to a prospect
-    public function prospects()
+    public function customers()
     {
-        return $this->belongsTo(Prospect::class);
+        return $this->belongsTo(Customer::class);
     }
 
-    // A customer belongs to a user (sales rep)
     public function users()
     {
         return $this->belongsTo(User::class);

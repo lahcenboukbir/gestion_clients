@@ -19,7 +19,7 @@
                                 @csrf
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="status" class="form-label">Prospect</label>
+                                    <label for="status" class="form-label">Prospect <span class="text-danger">*</span></label>
                                     <select name="prospect_id" class="form-select" id="status">
                                         @foreach ($prospects as $prospect)
                                             <option value="{{ $prospect->id }}">{{ $prospect->name }}</option>
@@ -28,7 +28,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Rendez-vous</label>
+                                    <label class="form-label">Rendez-vous <span class="text-danger">*</span></label>
                                     <input name="appointment_date" type="text" class="form-control" id="datetime-datepicker"
                                         placeholder="Sélectionnez la date du rendez-vous">
                                 </div>

@@ -158,14 +158,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($recently_users as $recently_user)
+
+                                @forelse ($recently_users as $recently_user)
                                     <tr>
                                         <th scope="row">{{ $recently_user->id }}</th>
                                         <td>{{ $recently_user->name }}</td>
                                         <td>{{ $recently_user->email ?? 'N/A' }}</td>
                                         <td>{{ $recently_user->phone_number ?? 'N/A' }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr class="text-center">
+                                        <td colspan="4">Aucun utilisateur récemment ajouté</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -195,7 +200,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($recently_companies as $recently_company)
+                                @forelse ($recently_companies as $recently_company)
                                     <tr>
                                         <th scope="row">{{ $recently_company->id }}</th>
                                         <td>{{ $recently_company->company }}</td>
@@ -203,7 +208,12 @@
                                         <td>{{ $recently_company->activity ?? 'N/A' }}</td>
                                         <td>{{ $recently_company->phone_number ?? 'N/A' }}</td>
                                     </tr>
-                                @endforeach
+
+                                @empty
+                                    <tr class="text-center">
+                                        <td colspan="5">Aucune entreprise récemment ajoutée</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -215,7 +225,7 @@
     {{-- top / low --}}
     <div class="row">
         {{-- top --}}
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
@@ -261,7 +271,7 @@
         </div>
 
         {{-- low --}}
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">

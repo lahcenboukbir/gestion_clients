@@ -52,17 +52,20 @@ class User extends Authenticatable
     }
 
     // A user has many prospects
-    public function prospects() {
+    public function prospects()
+    {
         return $this->hasMany(Prospect::class);
     }
 
     // A user has many customers
-    public function appointments() {
+    public function appointments()
+    {
         return $this->hasMany(Appointment::class);
     }
 
     // A user has many appointments
-    public function customers() {
+    public function customers()
+    {
         return $this->hasMany(Customer::class);
     }
 }

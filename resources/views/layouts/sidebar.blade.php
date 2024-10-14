@@ -6,7 +6,7 @@
             <div id="sidebar-menu">
 
                 <div class="logo-box">
-                    <a class='logo logo-light' href='{{route('dashboard.index')}}'>
+                    <a class='logo logo-light' href='{{ route('dashboard.index') }}'>
                         <span class="logo-sm">
                             <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
                         </span>
@@ -14,7 +14,7 @@
                             <img src="{{ asset('images/logo-light.png') }}" alt="" height="24">
                         </span>
                     </a>
-                    <a class='logo logo-dark' href='{{route('dashboard.index')}}'>
+                    <a class='logo logo-dark' href='{{ route('dashboard.index') }}'>
                         <span class="logo-sm">
                             <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
                         </span>
@@ -26,7 +26,7 @@
 
                 <ul id="side-menu">
 
-                    <li class="menu-title">Menu</li>
+                    {{-- <li class="menu-title">Menu</li> --}}
 
                     <li>
                         <a class='tp-link' href='{{ route('dashboard.index') }}'>
@@ -35,7 +35,7 @@
                         </a>
                     </li>
 
-                    <li class="menu-title">Pages</li>
+                    {{-- <li class="menu-title">Pages</li> --}}
 
                     @role('admin')
                         <li>
@@ -78,6 +78,13 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a class='tp-link' href='{{ route('consultations.index') }}'>
+                            <span class="mdi mdi-handshake-outline"></span>
+                            <span> Consultations </span>
+                        </a>
+                    </li>
+
                     @can('generate reports')
                         <li>
                             <a href="#sidebarReport" data-bs-toggle="collapse">
@@ -97,6 +104,27 @@
                             </div>
                         </li>
                     @endcan
+
+                    <li>
+                        <a href="#sidebarSettings" data-bs-toggle="collapse">
+                            <span class="mdi mdi-cog-outline"></span>
+                            <span> Paramètres </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarSettings">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a class='tp-link' href='{{ route('ports.index') }}'>Ports</a>
+                                </li>
+                                <li>
+                                    <a class='tp-link' href='{{ route('equipment.names.index') }}'>Équipements</a>
+                                </li>
+                                <li>
+                                    <a class='tp-link' href='{{route('equipment.types.index')}}'>Types d'équipements</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
 
             </div>

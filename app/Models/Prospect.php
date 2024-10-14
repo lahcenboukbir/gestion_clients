@@ -22,17 +22,20 @@ class Prospect extends Model
     ];
 
     // A prospect belongs to a user (sales rep)
-    public function users() {
+    public function users()
+    {
         return $this->belongsTo(User::class);
     }
 
     // A prospect has one customer
-    public function cutomers() {
+    public function cutomers()
+    {
         return $this->hasOne(Customer::class);
     }
 
     // A prospect has many appointments
-    public function appointments() {
+    public function appointments()
+    {
         return $this->hasMany(Appointment::class);
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('status', ['new', 'interested', 'not_interested', 'customer'])->default('new');
             $table->string('city')->nullable();
             $table->string('activity')->nullable();
+            $table->string('ice')->nullable();
             $table->string('comment')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 

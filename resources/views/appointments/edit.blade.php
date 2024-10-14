@@ -19,7 +19,7 @@
                             @method('PUT')
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Rendez-vous</label>
+                                <label class="form-label">Rendez-vous <span class="text-danger">*</span></label>
                                 <input name="appointment_date" type="text" class="form-control" id="datetime-datepicker"
                                     value="{{ $appointment->appointment_date }}">
                             </div>

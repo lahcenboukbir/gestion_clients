@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\AssignRoleController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EquipementNamesController;
+use App\Http\Controllers\EquipementTypesController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\PortController;
 use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
@@ -62,7 +65,7 @@ Route::controller(AppointmentController::class)->group(function () {
     Route::delete('/appointments/{id}', 'destroy')->name('appointments.destroy');
 });
 
-// Report
+// Reports
 Route::controller(ReportController::class)->group(function () {
     Route::get('/report/pdf', 'pdfReport')->name('pdf-report');
     Route::get('/report/excel', 'excelReport')->name('excel-report');
@@ -101,4 +104,48 @@ Route::controller(RoleController::class)->group(function () {
 Route::controller(UserProfile::class)->group(function () {
     Route::get('/profile', 'show')->name('profile.show');
     Route::put('/profile', 'update')->name('profile.update');
+});
+
+// Ports
+Route::controller(PortController::class)->group(function () {
+    Route::get('/settings/ports', 'index')->name('ports.index');
+    Route::get('/settings/ports/create', 'create')->name('ports.create');
+    Route::post('/settings/ports', 'store')->name('ports.store');
+    // Route::get('/settings/ports/{id}', 'show')->name('ports.show');
+    Route::get('/settings/ports/{id}/edit', 'edit')->name('ports.edit');
+    Route::put('/settings/ports/{id}/edit', 'update')->name('ports.update');
+    Route::delete('/settings/ports/{id}', 'destroy')->name('ports.destroy');
+});
+
+// Equipement names
+Route::controller(EquipementNamesController::class)->group(function () {
+    Route::get('/settings/equipment-names', 'index')->name('equipment.names.index');
+    Route::get('/settings/equipment-names/create', 'create')->name('equipment.names.create');
+    Route::post('/settings/equipment-names', 'store')->name('equipment.names.store');
+    // Route::get('/settings/equipment-names/{id}', 'show')->name('equipment.names.show');
+    Route::get('/settings/equipment-names/{id}/edit', 'edit')->name('equipment.names.edit');
+    Route::put('/settings/equipment-names/{id}/edit', 'update')->name('equipment.names.update');
+    Route::delete('/settings/equipment-names/{id}', 'destroy')->name('equipment.names.destroy');
+});
+
+// Equipement types
+Route::controller(EquipementTypesController::class)->group(function () {
+    Route::get('/settings/equipment-types', 'index')->name('equipment.types.index');
+    Route::get('/settings/equipment-types/create', 'create')->name('equipment.types.create');
+    Route::post('/settings/equipment-types', 'store')->name('equipment.types.store');
+    // Route::get('/settings/equipment-types/{id}', 'show')->name('equipment.types.show');
+    Route::get('/settings/equipment-types/{id}/edit', 'edit')->name('equipment.types.edit');
+    Route::put('/settings/equipment-types/{id}/edit', 'update')->name('equipment.types.update');
+    Route::delete('/settings/equipment-types/{id}', 'destroy')->name('equipment.types.destroy');
+});
+
+// Consultations
+Route::controller(ConsultationController::class)->group(function () {
+    Route::get('/consultations', 'index')->name('consultations.index');
+    Route::get('/consultations/create', 'create')->name('consultations.create');
+    Route::post('/consultations', 'store')->name('consultations.store');
+    Route::get('/consultations/{id}', 'show')->name('consultations.show');
+    Route::get('/consultations/{id}/edit', 'edit')->name('consultations.edit');
+    Route::put('/consultations/{id}/edit', 'update')->name('consultations.update');
+    Route::delete('/consultations/{id}', 'destroy')->name('consultations.destroy');
 });

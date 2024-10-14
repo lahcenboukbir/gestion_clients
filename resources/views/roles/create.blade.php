@@ -19,13 +19,13 @@
                             @csrf
 
                             <div class="col-12 mb-3">
-                                <label for="name" class="form-label">Nom</label>
+                                <label for="name" class="form-label">Nom <span class="text-danger">*</span></label>
                                 <input name="name" type="text" id="name" class="form-control"
                                     placeholder="Entrez le nom" required>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <h6 class="fs-15">Permissions</h6>
+                                <h6 class="fs-15">Permissions <span class="text-danger">*</span></h6>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
