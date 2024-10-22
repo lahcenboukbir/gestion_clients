@@ -179,6 +179,7 @@ class RoleController extends Controller
 
             'all_reports_permissions',
             'reports_permissions',
+
         ));
     }
 
@@ -274,6 +275,7 @@ class RoleController extends Controller
             'prospects_permissions',
             'customers_permissions',
             'appointments_permissions'
+
         ));
     }
 }

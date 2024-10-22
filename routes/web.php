@@ -148,4 +148,7 @@ Route::controller(ConsultationController::class)->group(function () {
     Route::get('/consultations/{id}/edit', 'edit')->name('consultations.edit');
     Route::put('/consultations/{id}/edit', 'update')->name('consultations.update');
     Route::delete('/consultations/{id}', 'destroy')->name('consultations.destroy');
+    Route::put('/consultations/{id}/confirm', 'confirm')->name('consultations.confirm');
+    Route::put('/consultations/{id}/unconfirm', 'unconfirm')->name('consultations.unconfirm');
+    Route::put('/consultations/{id}/notes', 'notes')->name('consultations.notes');
 });

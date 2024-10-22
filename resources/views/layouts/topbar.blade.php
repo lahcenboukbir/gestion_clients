@@ -33,7 +33,7 @@
                             </div>
 
                             <!-- item-->
-                            <a class='dropdown-item notify-item' href='{{route('profile.show')}}'>
+                            <a class='dropdown-item notify-item' href='{{ route('profile.show') }}'>
                                 <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
                                 <span>Mon compte</span>
                             </a>

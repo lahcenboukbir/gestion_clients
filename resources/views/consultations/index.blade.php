@@ -17,9 +17,9 @@
                                 <th>ID</th>
                                 <th>Client</th>
                                 <th>Statut</th>
-                                <th>Notes</th>
-                                <th>Confirmation date</th>
-                                <th>Consultation date</th>
+                                <th>Remarques</th>
+                                <th>Date de confirmation</th>
+                                <th>Date de consultation</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -68,7 +68,9 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <form action="" method="POST" class="d-inline">
+                                                        <form
+                                                            action="{{ route('consultations.destroy', $consultation->consultation_id) }}"
+                                                            method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
 
@@ -84,6 +86,147 @@
                                             </div>
                                         </div>
 
+                                        {{-- Confirmation --}}
+                                        @if (!$consultation->confirmation_date)
+                                            <button type="button" class="btn btn-primary btn-sm py-0 px-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal{{ $consultation->consultation_id }}">
+                                                <span class="mdi mdi-check-circle-outline"></span>
+                                            </button>
+
+                                            <div class="modal fade" id="confirmModal{{ $consultation->consultation_id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="confirmModal{{ $consultation->consultation_id }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="confirmModal{{ $consultation->consultation_id }}">
+                                                                Confirmer</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form
+                                                                action="{{ route('consultations.confirm', $consultation->consultation_id) }}"
+                                                                method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('PUT')
+
+                                                                <button type="button"
+                                                                    class="btn btn-light btn-sm py-0 px-2"
+                                                                    data-bs-dismiss="modal">
+                                                                    <span class="mdi mdi-close"></span></button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-sm py-0 px-2">
+                                                                    <span class="mdi mdi-check-circle-outline"></span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        {{-- unconfirm --}}
+                                        @if ($consultation->confirmation_date)
+                                            <button type="button" class="btn btn-info btn-sm py-0 px-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#unconfirmModal{{ $consultation->consultation_id }}">
+                                                <span class="mdi mdi-reload"></span>
+                                            </button>
+
+                                            <div class="modal fade" id="unconfirmModal{{ $consultation->consultation_id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="unconfirmModal{{ $consultation->consultation_id }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="unconfirmModal{{ $consultation->consultation_id }}">
+                                                                Annuler la confirmation</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form
+                                                                action="{{ route('consultations.unconfirm', $consultation->consultation_id) }}"
+                                                                method="POST" class="d-inline">
+                                                                @csrf
+                                                                @method('PUT')
+
+                                                                <button type="button"
+                                                                    class="btn btn-light btn-sm py-0 px-2"
+                                                                    data-bs-dismiss="modal">
+                                                                    <span class="mdi mdi-close"></span></button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-info py-0 px-2">
+                                                                    <span class="mdi mdi-reload"></span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        {{-- notes --}}
+                                        @if ($consultation->confirmation_date)
+                                            <button type="button" class="btn btn-dark btn-sm py-0 px-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#notesModal{{ $consultation->consultation_id }}">
+                                                <span class="mdi mdi-text"></span>
+                                            </button>
+
+                                            <div class="modal fade" id="notesModal{{ $consultation->consultation_id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="notesModal{{ $consultation->consultation_id }}">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="notesModal{{ $consultation->consultation_id }}">
+                                                                Ajouter
+                                                                des
+                                                                remarques</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form
+                                                                action="{{ route('consultations.notes', $consultation->consultation_id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+
+                                                                <div class="row g-3">
+                                                                    <div>
+                                                                        <label for="notes"
+                                                                            class="form-label">Remarques</label>
+                                                                        <input type="text" name="notes"
+                                                                            class="form-control" id="notes"
+                                                                            placeholder="Ajouter des remarques"
+                                                                            value="{{ $consultation->notes }}" autofocus>
+                                                                    </div>
+
+                                                                    <div class="col">
+                                                                        <div class="hstack gap-2 justify-content-end">
+                                                                            <button type="button" class="btn btn-light"
+                                                                                data-bs-dismiss="modal">Fermer</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-success">Ajouter</button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -103,3 +246,9 @@
         </div>
     </div>
 @endsection
+
+
+
+
+
+

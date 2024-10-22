@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Consultation;
-use App\Models\Customer;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ConsultationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +29,7 @@ class ConsultationController extends Controller
                 'consultations.consultation_date_time',
             )
             ->get();
-        // dd($consultations);
+
         return view('consultations.index', compact('consultations'));
     }
 
@@ -73,7 +75,7 @@ class ConsultationController extends Controller
         $consultation_id = DB::table('consultations')->insertGetId([
             'customer_id' => $validated['customer_id'],
             'user_id' =>  $validated['user_id'],
-            'consultation_date_time' =>  $validated['consultation_date_time'],
+            'consultation_date_time' =>  $validated['consultation_date_time'] ?? now(),
             'status' => 'scheduled',
         ]);
 
@@ -278,6 +280,53 @@ class ConsultationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $consultation = DB::table('consultations')->where('id', $id)->first();
+
+        if ($consultation) {
+            DB::table('consultations')->where('id', $id)->delete();
+
+            return redirect()->route('consultations.index');
+        }
+    }
+
+    /**
+     * Confirmation.
+     */
+    public function confirm($id)
+    {
+        DB::table('consultations')->where('id', $id)->update([
+            'confirmation_date' => now()
+        ]);
+
+        return redirect()->route('consultations.index');
+    }
+
+    /**
+     * unconfirm.
+     */
+    public function unconfirm($id)
+    {
+        DB::table('consultations')->where('id', $id)->update([
+            'confirmation_date' => null,
+            'notes' => null,
+        ]);
+
+        return redirect()->route('consultations.index');
+    }
+
+    /**
+     * Notes.
+     */
+    public function notes(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'notes' => 'nullable|string|max:255',
+        ]);
+
+        DB::table('consultations')->where('id', $id)->update([
+            'notes' => $validated['notes']
+        ]);
+
+        return redirect()->route('consultations.index');
     }
 }
